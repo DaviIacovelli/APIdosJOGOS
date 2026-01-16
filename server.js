@@ -1249,22 +1249,22 @@ app.get("/api/games", (req, res) => {
   if (platform) {
     filteredGames = filteredGames.filter((game) =>
       game.platform.some((p) =>
-        p.toLowerCase().includes(platform.toLowerCase())
-      )
+        p.toLowerCase().includes(platform.toLowerCase()),
+      ),
     );
   }
 
   if (category) {
     filteredGames = filteredGames.filter((game) =>
       game.categories.some((c) =>
-        c.toLowerCase().includes(category.toLowerCase())
-      )
+        c.toLowerCase().includes(category.toLowerCase()),
+      ),
     );
   }
 
   if (search) {
     filteredGames = filteredGames.filter((game) =>
-      game.titulo.toLowerCase().includes(search.toLowerCase())
+      game.titulo.toLowerCase().includes(search.toLowerCase()),
     );
   }
 
@@ -1332,7 +1332,7 @@ app.post("/api/register", async (req, res) => {
     }
 
     const existingUser = usuarios.find(
-      (u) => u.username === username || u.email === email
+      (u) => u.username === username || u.email === email,
     );
     if (existingUser) {
       return res.status(409).json({
@@ -1361,7 +1361,7 @@ app.post("/api/register", async (req, res) => {
         role: newUser.role,
       },
       JWT_SECRET,
-      { expiresIn: "24h" }
+      { expiresIn: "24h" },
     );
 
     res.status(201).json({
@@ -1420,7 +1420,7 @@ app.post("/api/login", async (req, res) => {
         role: user.role,
       },
       JWT_SECRET,
-      { expiresIn: "24h" }
+      { expiresIn: "24h" },
     );
 
     res.json({
@@ -1490,7 +1490,7 @@ app.put("/api/profile", authenticateToken, async (req, res) => {
 
       const isCurrentPasswordValid = await verifyPassword(
         currentPassword,
-        usuarios[userIndex].password
+        usuarios[userIndex].password,
       );
       if (!isCurrentPasswordValid) {
         return res.status(401).json({
@@ -1540,7 +1540,7 @@ app.post("/api/games", authenticateToken, (req, res) => {
   }
 
   const existingGame = jogos.find(
-    (game) => game.titulo.toLowerCase() === titulo.toLowerCase()
+    (game) => game.titulo.toLowerCase() === titulo.toLowerCase(),
   );
 
   if (existingGame) {
@@ -1670,10 +1670,12 @@ export const initializeAdminUser = async () => {
         createdAt: new Date().toISOString(),
       });
       console.log("👤 Usuário admin criado: admin / admin123");
-    };
+    }
 
-    export default app;
-  console.log(`🎮 Servidor GameHub rodando na porta ${PORT}`);
-  console.log(`📚 Total de jogos na base: ${jogos.length}`);
-  console.log(`👥 Total de usuários: ${usuarios.length}`);
-});
+    // usuário admin inicializado
+  } catch (err) {
+    console.error("Erro inicializando usuário admin:", err);
+  }
+};
+
+export default app;

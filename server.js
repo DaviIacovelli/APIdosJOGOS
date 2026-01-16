@@ -1656,7 +1656,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-const initializeAdminUser = async () => {
+export const initializeAdminUser = async () => {
   try {
     const adminExists = usuarios.find((u) => u.role === "admin");
     if (!adminExists) {
@@ -1670,14 +1670,9 @@ const initializeAdminUser = async () => {
         createdAt: new Date().toISOString(),
       });
       console.log("👤 Usuário admin criado: admin / admin123");
-    }
-  } catch (error) {
-    console.error("Erro ao criar usuário admin:", error);
-  }
-};
+    };
 
-app.listen(PORT, async () => {
-  await initializeAdminUser();
+    export default app;
   console.log(`🎮 Servidor GameHub rodando na porta ${PORT}`);
   console.log(`📚 Total de jogos na base: ${jogos.length}`);
   console.log(`👥 Total de usuários: ${usuarios.length}`);

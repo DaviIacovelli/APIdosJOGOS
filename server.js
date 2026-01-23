@@ -1,4 +1,5 @@
 import bcrypt from "bcryptjs";
+import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import jwt from "jsonwebtoken";
@@ -9,6 +10,16 @@ const app = express();
 const PORT = process.env.PORT;
 const JWT_SECRET = process.env.JWT_SECRET;
 const SALT_ROUNDS = 10;
+
+app.use(
+  cors({
+    origin: ["http://localhost:3000", "http://26.109.248.8:3000/"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  }),
+);
+
+app.options("*", cors());
 
 app.use(express.json());
 
